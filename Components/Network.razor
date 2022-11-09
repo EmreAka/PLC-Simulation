@@ -1,0 +1,102 @@
+﻿@using PLC_Simulation.Services;
+@using PLC_Simulation.Services.Components.Abstracts;
+@using PLC_Simulation.Services.Components.Concretes;
+@using PLC_Simulation.Services.Enums;
+
+<g>
+    @*Lines*@
+    @for (int j = 0; j < SimulationService.Lines.Count; j++)
+    {
+        var i = j;
+        @if (@SimulationService.Lines[i].Output == false)
+        {
+            <line x1="@SimulationService.Lines[i].X1"
+          x2="@SimulationService.Lines[i].X2"
+          y1="@SimulationService.Lines[i].Y1"
+          y2="@SimulationService.Lines[i].Y2"
+          stroke="black"
+          stroke-width="3" @onmouseover="() => Over = true" @onmouseout="() => Over = false" @onclick="() => AddComponent(SimulationService.Lines[i])" />
+        }
+        @if (@SimulationService.Lines[i].Output == true)
+        {
+            <line x1="@SimulationService.Lines[i].X1"
+          x2="@SimulationService.Lines[i].X2"
+          y1="@SimulationService.Lines[i].Y1"
+          y2="@SimulationService.Lines[i].Y2"
+          stroke="green"
+          stroke-width="3" @onmouseover="() => Over = true" @onmouseout="() => Over = false" />
+        }
+
+        @if (Over)
+        {
+            <circle cx="@GetX(SimulationService.Lines[i])" cy="@SimulationService.Lines[i].Y1" r="10" stroke="black" stroke-width="1" fill="green"/>
+        }
+    }
+
+    @*Components*@
+    @for (int i = 0; i < SimulationService.Components.Count; i++)
+    {
+        var j = i;
+        @if (SimulationService.Components[j] is IButton)
+        {
+            IButton button = (IButton)(SimulationService.Components[j]);
+            <g @onclick="() => Toggle(button)" transform="translate(@button.X @button.Y)" style="cursor: pointer">
+                <Button IsOpen="@button.IsOpen" Output="@button.Output"></Button>
+            </g>
+        }
+    }
+
+    @*Lines in the end and the front*@
+    <line x1="1500" x2="1500" y1="90" y2="110" stroke-width="3" stroke="black" />
+    <line x1="20" x2="20" y1="20" y2="180" stroke-width="3" stroke="black" />
+</g>
+
+@code {
+    [Inject]
+    public SimulationService SimulationService { get; set; }
+    [Parameter]
+    public ComponentEnum SelectedComponent { get; set; }
+    private bool Over { get; set; } = false;
+
+    protected override void OnInitialized()
+    {
+        SimulationService.Lines.Add(new Line() { X1 = 20, X2 = 1500, Y1 = 100, Y2 = 100 });
+        SimulationService.Lines.LastOrDefault().Input.Add(SimulationService.Network);
+        SimulationService.ProcessCompleted += bl_ProcessCompleted;
+    }
+
+    public void bl_ProcessCompleted(Object obj, EventArgs evt)
+    {
+        StateHasChanged();
+    }
+
+    private void AddComponent(ILine line)
+    {
+        Console.WriteLine(line.X1);
+        if (SelectedComponent == ComponentEnum.Button)
+        {
+            //Existing line is editted.
+            line.X2 = line.X1 + 80;
+
+            //New component is added.
+            IButton newButton = new ClosedButton() { X = (line.X2), Y = 50 };
+            newButton.Input.Add(line);
+            SimulationService.Components.Add(newButton);
+
+            //New line is added.
+            ILine newLine = new Line() { X1 = (newButton.X + 60), X2 = 1500, Y1 = 100, Y2 = 100 };
+            newLine.Input.Add(newButton);
+            SimulationService.Lines.Add(newLine);
+        }
+    }
+
+    public void Toggle(IButton button)
+    {
+        button.ToggleButton();
+    }
+
+    private int GetX(ILine line)
+    {
+        return (line.X1 + line.X2) / 2;
+    }
+}

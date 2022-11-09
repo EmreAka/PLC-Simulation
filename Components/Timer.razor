@@ -1,0 +1,15 @@
+﻿<div class="container">
+    <h3 style="text-align:center">Timer</h3>
+    @*<h4>Id: @Id</h4>*@
+    <h4>Second: @TimerState</h4>
+    <h4 style="text-align:end">Output: @Output</h4>
+</div>
+
+@code {
+    [Parameter]
+    public Guid Id { get; set; }
+    [Parameter]
+    public int TimerState { get; set; }
+    [Parameter]
+    public bool Output { get; set; }
+}

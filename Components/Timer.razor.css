@@ -1,0 +1,13 @@
+﻿.container {
+    display: flex;
+    flex-direction: column;
+    background-color: bisque;
+    width:200px;
+    height:250px;
+    border:solid 1px black;
+    padding:10px;
+}
+
+h3, h4 {
+    font-weight: 300;
+}

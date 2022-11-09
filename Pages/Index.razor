@@ -1,0 +1,93 @@
+﻿@page "/"
+@using PLCSimulation.Services
+@using PLC_Simulation.Components
+@using PLC_Simulation.Services.Enums
+@using PLC_Simulation.Services
+@using System.Timers
+
+<PageTitle>PLC Simulation</PageTitle>
+
+<h1 class="title">PLC Simulation</h1>
+
+<div class="button-group">
+    <div style="display: flex; gap: 1rem">
+        <button class="button" @onclick="() => StartSimulation()">Start</button>
+        <button class="button" @onclick="() => StopSimulation()">Stop</button>
+    </div>
+    <div>
+        <svg style="width: 100%; height: 100px;">
+            <g transform="translate(50 0)" style="cursor: pointer" @onclick="() => SetSelectedComponent(ComponentEnum.Button)">
+                @if (SelectedComponent == ComponentEnum.Button)
+                {
+                    <rect x="-20" width="100" height="100" fill="gray" stroke="none" />
+                }
+                <Button></Button>
+            </g>
+        </svg>
+    </div>
+</div>
+
+
+<h2 style="font-weight:300; margin-left:1rem">Rendered @HowManyTimesReRendered times</h2>
+
+@if (SimulationService.Components.Any() || true)
+{
+    <svg style="width: 100%; height: 300px;">
+        <g>
+            <Network SelectedComponent="@SelectedComponent"></Network>
+        </g>
+
+        @*<g transform="translate(0 300)">
+    <Network></Network>
+    </g>*@
+    </svg>
+}
+
+@code {
+    [Inject]
+    public SimulationService SimulationService { get; set; }
+    public ComponentEnum SelectedComponent { get; set; }
+    public bool IsRun { get; set; } = false;
+    public int HowManyTimesReRendered { get; set; }
+
+    protected override void OnInitialized()
+    {
+        SimulationTimer.StartTimer();
+        SimulationService.ProcessCompleted += bl_ProcessCompleted;
+    }
+
+    public void bl_ProcessCompleted(Object obj, EventArgs evt)
+    {
+        StateHasChanged();
+        HowManyTimesReRendered += 1;
+    }
+
+    public void StopSimulation()
+    {
+        SimulationService.StopSimulation();
+        IsRun = false;
+        SimulationService.Network.Output = false;
+    }
+
+    public async void StartSimulation()
+    {
+        if (IsRun == false)
+        {
+            IsRun = true;
+            SimulationService.Network.Output = true;
+            await SimulationService.StartSimulation();
+        }
+    }
+
+    public void SetSelectedComponent(ComponentEnum componentEnum)
+    {
+        if (SelectedComponent != componentEnum)
+        {
+            SelectedComponent = componentEnum;
+        }
+        else
+        {
+            SelectedComponent = ComponentEnum.None;
+        }
+    }
+}
