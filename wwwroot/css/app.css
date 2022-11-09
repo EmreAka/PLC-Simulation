@@ -45,7 +45,7 @@ h1:focus {
 .button {
     padding: 1rem 1.5rem 1rem 1.5rem;
     border: none;
-    background-color: hotpink;
+    background-color: black;
     color: white;
     font-size: 1.3rem;
     cursor: pointer;
