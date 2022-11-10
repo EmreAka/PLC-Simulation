@@ -5,5 +5,7 @@ public enum ComponentEnum
     None,
     Button,
     Timer,
-    Counter
+    Counter,
+    Parallel,
+    Serial
 }
