@@ -95,6 +95,10 @@
             IButton newButton = new ClosedButton() { X = (line.X2), Y = line.Y1 - 50};
             newButton.Input.Add(line);
             SimulationService.Components.Add(newButton);
+
+            ILine newLine = new Line() { X1 = newButton.X + 60, X2 = newButton.X + 120, Y1 = line.Y1, Y2= line.Y1, LineType = LineType.Parallel};
+            newLine.Input.Add(newButton);
+            SimulationService.Lines.Add(newLine);
         }
 
         if (SelectedComponent == ComponentEnum.ParallelDown)
@@ -102,7 +106,7 @@
             ILine newLine = new Line() { X1 = (line.X1 + line.X2) / 2, X2 = (line.X1 + line.X2) / 2, Y1 = line.Y1, Y2 = line.Y1 + 200 };
             newLine.Input.Add(line);
 
-            ILine newLine1 = new Line() { X1 = newLine.X1, X2 = newLine.X1 - (((line.X1 + line.X2) / 2) - line.X2), Y1 = newLine.Y2, Y2 = newLine.Y2, LineType = LineType.Parallel };
+            ILine newLine1 = new Line() { X1 = newLine.X1, X2 = newLine.X1 + 80, Y1 = newLine.Y2, Y2 = newLine.Y2, LineType = LineType.Parallel };
             newLine1.Input.Add(newLine);
 
             SimulationService.Lines.AddRange(new List<ILine>{newLine, newLine1});
