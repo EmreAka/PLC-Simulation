@@ -5,7 +5,7 @@ namespace PLC_Simulation.Services.Components.Concretes;
 public class ClosedButton : IButton
 {
     public Guid Id { get; set; }
-    public List<IComponent> Input { get; set; } = new();
+    public List<IComponent> Input { get; } = new();
     public bool IsOpen { get; set; } = false;
     public bool Output { get; set; } = false;
     public int X { get; set; }

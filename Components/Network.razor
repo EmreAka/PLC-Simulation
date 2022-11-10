@@ -60,12 +60,13 @@
 
     protected override void OnInitialized()
     {
-        SimulationService.Lines.Add(new Line() { X1 = 20, X2 = 1500, Y1 = 100, Y2 = 100 });
-        SimulationService.Lines.LastOrDefault().Input.Add(SimulationService.Network);
+        ILine line = new Line() { X1 = 20, X2 = 1500, Y1 = 100, Y2 = 100 };
+        line.Input.Add(SimulationService.Network);
+        SimulationService.Lines.Add(line);
         SimulationService.ProcessCompleted += bl_ProcessCompleted;
     }
 
-    public void bl_ProcessCompleted(Object obj, EventArgs evt)
+    public void bl_ProcessCompleted(object obj, EventArgs evt)
     {
         StateHasChanged();
     }

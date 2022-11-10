@@ -4,7 +4,7 @@ namespace PLC_Simulation.Services.Components.Concretes;
 
 public class OpenButton : IButton
 {
-    public List<IComponent>? Input { get; set; }
+    public List<IComponent> Input { get; } = new();
     public bool Output { get; set; } = false;
     public Guid Id { get; set; }
     public bool IsOpen { get; set; }

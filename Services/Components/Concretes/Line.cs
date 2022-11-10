@@ -5,7 +5,7 @@ namespace PLC_Simulation.Services.Components.Concretes;
 public class Line : ILine
 {
     public Guid Id { get; set; }
-    public List<IComponent>? Input { get; set; } = new();
+    public List<IComponent> Input { get; } = new();
     public bool Output { get; set; }
     public int X1 { get; set; }
     public int X2 {get; set; }

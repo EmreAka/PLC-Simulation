@@ -5,8 +5,7 @@ namespace PLC_Simulation.Services.Components.Concretes;
 public class Motor : IMotor
 {
     public Guid Id { get; set; }
-    public List<IComponent>? Input { get; set; }
-
+    public List<IComponent> Input { get; } = new();
 
     public bool Output { get; set; }
 

@@ -5,7 +5,7 @@ namespace PLC_Simulation.Services.Components.Concretes;
 public class Counter : ICounter
 {
     public Guid Id { get; set; }
-    public List<IComponent> Input { get; set; } = new();
+    public List<IComponent> Input { get; } = new();
     public bool Output { get; set; }
 
     public int CountState { get; set; }
