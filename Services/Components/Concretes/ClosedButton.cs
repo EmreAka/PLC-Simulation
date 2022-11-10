@@ -36,7 +36,6 @@ public class ClosedButton : IButton
         {
             for (int i = 0; i < Input.Count; i++)
             {
-                Console.WriteLine(Input[i].Output);
                 if (Input[i].Output == true && IsOpen == false)
                 {
                     return true;

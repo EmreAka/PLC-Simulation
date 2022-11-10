@@ -29,7 +29,7 @@
 
         @if (Over)
         {
-            <circle cx="@GetX(SimulationService.Lines[i])" cy="@SimulationService.Lines[i].Y1" r="10" stroke="black" stroke-width="1" fill="green"/>
+            <circle cx="@GetX(SimulationService.Lines[i])" cy="@SimulationService.Lines[i].Y1" r="10" stroke="black" stroke-width="1" fill="green" />
         }
     }
 
@@ -73,7 +73,6 @@
 
     private void AddComponent(ILine line)
     {
-        Console.WriteLine(line.X1);
         if (SelectedComponent == ComponentEnum.Button)
         {
             //Existing line is editted.
