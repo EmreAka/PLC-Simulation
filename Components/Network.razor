@@ -15,7 +15,7 @@
           y1="@SimulationService.Lines[i].Y1"
           y2="@SimulationService.Lines[i].Y2"
           stroke="black"
-          stroke-width="3" @onmouseover="() => Over = true" @onmouseout="() => Over = false" @onclick="() => AddComponent(SimulationService.Lines[i])" />
+          stroke-width="3" @onmouseover="() => Over = true" @onmouseout="() => Over = false" @onclick="() => {AddComponent(SimulationService.Lines[i]); Test(SimulationService.Lines[i]);}" />
         }
         @if (@SimulationService.Lines[i].Output == true)
         {
@@ -56,6 +56,7 @@
     public SimulationService SimulationService { get; set; }
     [Parameter]
     public ComponentEnum SelectedComponent { get; set; }
+    public ILine? SelectedLine { get; set; }
     private bool Over { get; set; } = false;
 
     protected override void OnInitialized()
@@ -110,6 +111,19 @@
             newLine1.Input.Add(newLine);
 
             SimulationService.Lines.AddRange(new List<ILine>{newLine, newLine1});
+        }
+    }
+
+    //TODO: REFACTOR
+    private void Test(ILine line)
+    {
+        if (SelectedComponent == ComponentEnum.ParallelUp && SelectedLine is not null)
+        {
+            line.Input.Add(SelectedLine);
+        }
+        else
+        {
+            SelectedLine = line;
         }
     }
 
