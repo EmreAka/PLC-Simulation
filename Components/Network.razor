@@ -97,7 +97,7 @@
             SimulationService.Components.Add(newButton);
         }
 
-        if (SelectedComponent == ComponentEnum.Parallel)
+        if (SelectedComponent == ComponentEnum.ParallelDown)
         {
             ILine newLine = new Line() { X1 = (line.X1 + line.X2) / 2, X2 = (line.X1 + line.X2) / 2, Y1 = line.Y1, Y2 = line.Y1 + 200 };
             newLine.Input.Add(line);
