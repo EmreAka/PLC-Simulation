@@ -60,7 +60,7 @@
 
     protected override void OnInitialized()
     {
-        ILine line = new Line() { X1 = 20, X2 = 1500, Y1 = 100, Y2 = 100 };
+        ILine line = new Line() { X1 = 20, X2 = 1500, Y1 = 100, Y2 = 100, LineType = LineType.Serial };
         line.Input.Add(SimulationService.Network);
         SimulationService.Lines.Add(line);
         SimulationService.ProcessCompleted += bl_ProcessCompleted;
@@ -73,13 +73,13 @@
 
     private void AddComponent(ILine line)
     {
-        if (SelectedComponent == ComponentEnum.Button)
+        if (SelectedComponent == ComponentEnum.Button && line.LineType == LineType.Serial)
         {
             //Existing line is editted.
             line.X2 = line.X1 + 80;
 
             //New component is added.
-            IButton newButton = new ClosedButton() { X = (line.X2), Y = 50 };
+            IButton newButton = new ClosedButton() { X = (line.X2), Y = line.Y1 / 2 };
             newButton.Input.Add(line);
             SimulationService.Components.Add(newButton);
 
@@ -87,6 +87,25 @@
             ILine newLine = new Line() { X1 = (newButton.X + 60), X2 = 1500, Y1 = 100, Y2 = 100 };
             newLine.Input.Add(newButton);
             SimulationService.Lines.Add(newLine);
+        }
+
+        if (SelectedComponent == ComponentEnum.Button && line.LineType == LineType.Parallel)
+        {
+            //New component is added.
+            IButton newButton = new ClosedButton() { X = (line.X2), Y = line.Y1 - 50};
+            newButton.Input.Add(line);
+            SimulationService.Components.Add(newButton);
+        }
+
+        if (SelectedComponent == ComponentEnum.Parallel)
+        {
+            ILine newLine = new Line() { X1 = (line.X1 + line.X2) / 2, X2 = (line.X1 + line.X2) / 2, Y1 = line.Y1, Y2 = line.Y1 + 200 };
+            newLine.Input.Add(line);
+
+            ILine newLine1 = new Line() { X1 = newLine.X1, X2 = newLine.X1 - (((line.X1 + line.X2) / 2) - line.X2), Y1 = newLine.Y2, Y2 = newLine.Y2, LineType = LineType.Parallel };
+            newLine1.Input.Add(newLine);
+
+            SimulationService.Lines.AddRange(new List<ILine>{newLine, newLine1});
         }
     }
 

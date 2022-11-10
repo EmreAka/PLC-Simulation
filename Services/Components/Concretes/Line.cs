@@ -1,4 +1,5 @@
 ﻿using PLC_Simulation.Services.Components.Abstracts;
+using PLC_Simulation.Services.Enums;
 
 namespace PLC_Simulation.Services.Components.Concretes;
 
@@ -11,6 +12,7 @@ public class Line : ILine
     public int X2 {get; set; }
     public int Y1 { get; set; }
     public int Y2 { get; set; }
+    public LineType LineType { get; set; }
 
     public Line()
     {
