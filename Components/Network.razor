@@ -77,7 +77,7 @@
         if (SelectedComponent == ComponentEnum.Button && line.LineType == LineType.Serial)
         {
             //Existing line is editted.
-            line.X2 = line.X1 + 80;
+            line.X2 = line.X1 + 150;
 
             //New component is added.
             IButton newButton = new ClosedButton() { X = (line.X2), Y = line.Y1 / 2 };
@@ -97,7 +97,7 @@
             newButton.Input.Add(line);
             SimulationService.Components.Add(newButton);
 
-            ILine newLine = new Line() { X1 = newButton.X + 60, X2 = newButton.X + 120, Y1 = line.Y1, Y2 = line.Y1, LineType = LineType.Parallel };
+            ILine newLine = new Line() { X1 = newButton.X + 60, X2 = newButton.X + 140, Y1 = line.Y1, Y2 = line.Y1, LineType = LineType.Parallel };
             newLine.Input.Add(newButton);
             SimulationService.Lines.Add(newLine);
         }
@@ -131,6 +131,17 @@
         if (SelectedComponent == ComponentEnum.ParallelUp && SelectedLine is not null)
         {
             line.Input.Add(SelectedLine);
+
+            ILine newLine = new Line()
+            {
+                X1 = SelectedLine.X2,
+                X2 = SelectedLine.X2, //bunu birleştirilen komponentin yarisina geç
+                Y1 = SelectedLine.Y2,
+                Y2 = 100 //sabit olmasin
+            };
+            newLine.Input.Add(SelectedLine);
+
+            SimulationService.Lines.Add(newLine);
         }
         else
         {
