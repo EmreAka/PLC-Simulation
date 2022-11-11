@@ -2,6 +2,7 @@
 
 public enum LineType
 {
+    Network,
     Serial,
-    Parallel
+    Parallel,
 }
