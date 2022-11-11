@@ -36,7 +36,7 @@
           y1="@SimulationService.Lines[i].Y1"
           y2="@SimulationService.Lines[i].Y2"
           stroke="pink"
-          stroke-width="3" @onmouseover="() => Over = true" @onmouseout="() => Over = false" />
+          stroke-width="3" @onmouseover="() => Over = true" @onmouseout="() => Over = false" @onclick="() => {AddComponent(SimulationService.Lines[i]); Test(SimulationService.Lines[i]);}" />
             }
         }
 
