@@ -26,6 +26,19 @@
           stroke="green"
           stroke-width="3" @onmouseover="() => Over = true" @onmouseout="() => Over = false" />
         }
+        @if (SelectedLine is not null)
+        {
+
+            @if (@SimulationService.Lines[i].Output == false && @SimulationService.Lines[i].Id == SelectedLine.Id)
+            {
+                <line x1="@SimulationService.Lines[i].X1"
+          x2="@SimulationService.Lines[i].X2"
+          y1="@SimulationService.Lines[i].Y1"
+          y2="@SimulationService.Lines[i].Y2"
+          stroke="pink"
+          stroke-width="3" @onmouseover="() => Over = true" @onmouseout="() => Over = false" />
+            }
+        }
 
         @if (Over)
         {
@@ -104,12 +117,12 @@
             line.Input.Add(SelectedLine);
 
             ILine newLine = new Line()
-            {
-                X1 = SelectedLine.X2,
-                X2 = SelectedLine.X2, //bunu birleştirilen komponentin yarisina geç
-                Y1 = SelectedLine.Y2,
-                Y2 = line.Y1 //sabit olmasin
-            };
+                {
+                    X1 = SelectedLine.X2,
+                    X2 = SelectedLine.X2, //bunu birleştirilen komponentin yarisina geç
+                    Y1 = SelectedLine.Y2,
+                    Y2 = line.Y1 //sabit olmasin
+                };
             newLine.Input.Add(SelectedLine);
 
             SimulationService.Lines.Add(newLine);
