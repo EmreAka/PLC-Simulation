@@ -74,74 +74,25 @@
 
     private void AddComponent(ILine line)
     {
-        //Adding buttons to network line.
         if (SelectedComponent == ComponentEnum.Button && line.LineType == LineType.Network)
         {
-            //Existing line is editted.
-            line.X2 = line.X1 + 150;
-
-            //New component is added.
-            IButton newButton = new ClosedButton() { X = (line.X2), Y = line.Y1 - 50 };
-            newButton.Input.Add(line);
-            SimulationService.Components.Add(newButton);
-
-            //New line is added.
-            ILine newLine = new Line() { X1 = (newButton.X + 60), X2 = 1500, Y1 = 100, Y2 = 100, LineType = LineType.Network };
-            newLine.Input.Add(newButton);
-            SimulationService.Lines.Add(newLine);
+            SimulationService.AddButtonsToTheNetwork(line);
         }
-
-        //Adding buttons to parallel line.
         if (SelectedComponent == ComponentEnum.Button && line.LineType == LineType.Parallel)
         {
-            IButton newButton = new ClosedButton() { X = (line.X2), Y = line.Y1 - 50 };
-            newButton.Input.Add(line);
-            SimulationService.Components.Add(newButton);
-
-            ILine newLine = new Line() { X1 = newButton.X + 60, X2 = newButton.X + 135, Y1 = line.Y1, Y2 = line.Y1, LineType = LineType.Serial };
-            newLine.Input.Add(newButton);
-            SimulationService.Lines.Add(newLine);
+            SimulationService.AddButtonToTheParallelLine(line);
         }
-
-        //Adding buttons to serial line.
         if (SelectedComponent == ComponentEnum.Button && line.LineType == LineType.Serial)
         {
-            //Existing line is editted.
-            line.X2 = line.X1 + 150;
-
-            //New component is added.
-            IButton newButton = new ClosedButton() { X = (line.X2), Y = line.Y1 - 50 };
-            newButton.Input.Add(line);
-            SimulationService.Components.Add(newButton);
-
-            //New line in the end.
-            ILine newLine = new Line() { X1 = (newButton.X + 60), X2 = newButton.X + 135, Y1 = line.Y2, Y2 = line.Y2, LineType = LineType.Serial};
-            newLine.Input.Add(newButton);
-            SimulationService.Lines.Add(newLine);
+            SimulationService.AddButtonToTheSerialLine(line);
         }
-
-        //Adding parallel line to network line.
         if (SelectedComponent == ComponentEnum.ParallelDown && line.LineType == LineType.Network)
         {
-            ILine newLine = new Line() { X1 = (line.X1 + line.X2) / 2, X2 = (line.X1 + line.X2) / 2, Y1 = line.Y1, Y2 = line.Y1 + 200 };
-            newLine.Input.Add(line);
-
-            ILine newLine1 = new Line() { X1 = newLine.X1, X2 = newLine.X1 + 75, Y1 = newLine.Y2, Y2 = newLine.Y2, LineType = LineType.Parallel };
-            newLine1.Input.Add(newLine);
-
-            SimulationService.Lines.AddRange(new List<ILine> { newLine, newLine1 });
+            SimulationService.AddParallelLineToTheNetworkLine(line);
         }
-
-        //Adding parallel line to parallel line.
         if (SelectedComponent == ComponentEnum.ParallelDown && line.LineType == LineType.Parallel)
         {
-            ILine newLine = new Line() { X1 = line.X1, X2 = line.X1, Y1 = line.Y1, Y2 = line.Y1 + 200 };
-            newLine.Input.Add(line);
-
-            ILine newLine1 = new Line() { X1 = newLine.X1, X2 = newLine.X1 + 75, Y1 = newLine.Y2, Y2 = newLine.Y2, LineType = LineType.Parallel };
-            newLine1.Input.Add(newLine);
-
-            SimulationService.Lines.AddRange(new List<ILine> { newLine, newLine1 });
+            SimulationService.AddParallelLineToTheParallelLine(line);
         }
     }
 
