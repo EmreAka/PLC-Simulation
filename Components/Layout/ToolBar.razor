@@ -1,0 +1,38 @@
+﻿@using PLC_Simulation.Services;
+<MudPaper Elevation="25">
+        <MudToolBar>
+            <MudIconButton Icon="@Icons.Material.Outlined.Menu" Color="Color.Inherit" Class="mr-5" />
+            <MudIconButton Icon="@Icons.Material.Outlined.PlayArrow" OnClick="() => StartSimulation()"/>
+            <MudIconButton Icon="@Icons.Material.Outlined.Stop" OnClick="() => StopSimulation()"/>
+            <MudIconButton Icon="@Icons.Material.Outlined.Remove" Color="Color.Inherit" />
+            <MudIconButton Icon="@Icons.Material.Outlined.Settings" Color="Color.Inherit" />
+            <MudSpacer />
+            <MudIconButton Icon="@Icons.Material.Outlined.Notifications" />
+            <MudIconButton Icon="@Icons.Material.Outlined.PushPin" />
+            <MudIconButton Icon="@Icons.Material.Outlined.PeopleAlt" />
+            <MudIconButton Icon="@Icons.Material.Outlined.MoreVert" Color="Color.Inherit" />
+        </MudToolBar>
+    </MudPaper>
+
+@code {
+    [Inject]
+    public SimulationService SimulationService { get; set; }
+    public bool IsRun { get; set; } = false;
+
+    public void StopSimulation()
+    {
+        SimulationService.StopSimulation();
+        IsRun = false;
+        SimulationService.Network.Output = false;
+    }
+
+    public async void StartSimulation()
+    {
+        if (IsRun == false)
+        {
+            IsRun = true;
+            SimulationService.Network.Output = true;
+            await SimulationService.StartSimulation();
+        }
+    }
+}

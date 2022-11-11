@@ -1,5 +1,10 @@
 ﻿@inherits LayoutComponentBase
-
-<main>
+<div style="position:fixed; width: 100%; z-index: 1">
+    <PLC_Simulation.Components.Layout.ToolBar></PLC_Simulation.Components.Layout.ToolBar>
+</div>
+<main style="padding-top:5rem">
     @Body
 </main>
+<MudThemeProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
