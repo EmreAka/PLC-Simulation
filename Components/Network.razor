@@ -114,16 +114,18 @@
     {
         if (SelectedComponent == ComponentEnum.ParallelUp && SelectedLine is not null)
         {
-            line.Input.Add(SelectedLine);
 
             ILine newLine = new Line()
                 {
                     X1 = SelectedLine.X2,
                     X2 = SelectedLine.X2, //bunu birleştirilen komponentin yarisina geç
                     Y1 = SelectedLine.Y2,
-                    Y2 = line.Y1 //sabit olmasin
+                    Y2 = line.Y1, //sabit olmasin
+                    LineType = LineType.Parallel
                 };
             newLine.Input.Add(SelectedLine);
+
+            line.Input.Add(newLine);
 
             SimulationService.Lines.Add(newLine);
         }
