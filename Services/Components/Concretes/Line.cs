@@ -27,7 +27,7 @@ public class Line : ILine
 
     private bool Resolve()
     {
-
+        //If the line type is parallel
         if (LineType == LineType.Parallel)
         {
             if (Input!.Count == 0)
