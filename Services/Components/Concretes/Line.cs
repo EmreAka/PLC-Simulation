@@ -1,4 +1,5 @@
-﻿using PLC_Simulation.Services.Components.Abstracts;
+﻿using PLC_Simulation.Components;
+using PLC_Simulation.Services.Components.Abstracts;
 using PLC_Simulation.Services.Enums;
 
 namespace PLC_Simulation.Services.Components.Concretes;
@@ -27,7 +28,52 @@ public class Line : ILine
     private bool Resolve()
     {
 
-        if (Input!.Count == 0)
+        if (LineType == LineType.Parallel)
+        {
+            if (Input!.Count == 0)
+            {
+                return false;
+            }
+            else
+            {
+                ILine networkLine = null;
+                foreach (var component in Input)
+                {
+                    if (component is ILine)
+                    {
+                        ILine line = (Line)component;
+
+                        if (line.LineType == LineType.Network)
+                        {
+                            networkLine = line;
+                        }
+                    }
+                }
+
+                if (networkLine is not null)
+                {
+                    var button = networkLine.Input.Find(c => c is IButton);
+                    var line = Input.Find(c => c is ILine);
+
+                    if (button is not null && line is not null)
+                    {
+                        if (button.Output == false && line.Output == false) return false;
+                    }
+
+                }
+
+                for (int i = 0; i < Input.Count; i++)
+                {
+                    if (Input[i].Output == true)
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
+
+        else if (Input!.Count == 0)
         {
             return false;
         }

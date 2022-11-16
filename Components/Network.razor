@@ -125,6 +125,8 @@
                 };
             newLine.Input.Add(SelectedLine);
 
+            newLine.Input.Add(line);
+
             line.Input.Add(newLine);
 
             SimulationService.Lines.Add(newLine);
